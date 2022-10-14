@@ -11,14 +11,24 @@ let paragraph = document.createElement("p");
 paragraph.setAttribute("id", "paragraph");
 paragraph.innerHTML = "START GAME";
 
+let divChoice = document.createElement("div");
+divChoice.setAttribute("class", "divChoice");
+
+let divScore = document.createElement("div");
+divScore.setAttribute("class", "divScore");
+
+let divImg = document.createElement("div");
+divImg.setAttribute("id", "divImg");
+
+
 let button = document.createElement("button");
-button.setAttribute("id", "button");
+button.setAttribute("id", "startButton");
 button.innerHTML = "button";
 
 
 let stone = document.createElement("button");
 stone.setAttribute("id", "stone");
-stone.innerHTML = "stone";
+stone.innerHTML = "rock";
 
 let paper = document.createElement("button");
 paper.setAttribute("id", "paper");
@@ -33,6 +43,9 @@ let restart = document.createElement("button");
 restart.setAttribute("id", "restart");
 restart.innerHTML = "RESTART GAME";
 
+
+let imgChoice = document.createElement("img");
+imgChoice.setAttribute("id", "ImgChoice");
 
 let random = document.createElement("p"); 
 random.setAttribute("id", "computerChoice");
@@ -60,7 +73,7 @@ draw.innerHTML = "DRAW : " + draws;
 
 
 
-const computerChoice = ["stone", "paper", "scissor"];
+const computerChoice = ["STONE", "PAPER", "SCISSOR"];
 
 function start() {
     let starter = document.getElementById("start");
@@ -79,34 +92,37 @@ function start() {
 function board_Game() {
 
     let starter = document.getElementById("start");
-
     let delete_Paragraph = document.getElementById("paragraph");
-    let delete_Button = document.getElementById("button");
+    let delete_Button = document.getElementById("startButton");
     delete_Paragraph.remove();
     delete_Button.remove();
 
     let paragraph = document.createElement("p");
     paragraph.setAttribute("id", "introduction");
-    paragraph.innerHTML = "STEIN SAKS PAPIR";
-
+    paragraph.innerHTML = "ROCK SCISSOR PAPER";
 
     starter.appendChild(paragraph);
 
-    starter.appendChild(winner);
-    starter.appendChild(loser);
-    starter.appendChild(draw);
+    starter.appendChild(divChoice);
+    starter.appendChild(divScore);
+    starter.appendChild(divImg);
 
 
-    main.appendChild(stone);
-    main.appendChild(paper);
-    main.appendChild(scissor);
-    starter.appendChild(restart);
-    starter.appendChild(random);
+    divChoice.appendChild(stone);
+    divChoice.appendChild(paper);
+    divChoice.appendChild(scissor);
 
+    divScore.appendChild(winner);
+    divScore.appendChild(loser);
+    divScore.appendChild(draw);
+    imgChoice.src = "robot.png";
+    divImg.appendChild(imgChoice)
 
     stone.addEventListener("click", stones);
     scissor.addEventListener("click", scissors);
     paper.addEventListener("click", papers);
+    starter.appendChild(restart);
+
 
     restart.addEventListener("click", restart_Game);
 }
@@ -115,14 +131,11 @@ function restart_Game() {
     wins = 0;
     draws = 0;
     lost = 0;
-
-
+    let startImage = document.getElementById("ImgChoice");
+    startImage.src = "robot.png";
     document.getElementById("draw").innerHTML = "DRAW: " + draws;
     document.getElementById("winner").innerHTML = "WINNER: " + wins;
     document.getElementById("loser").innerHTML = "LOSER: " + lost;
-    random.innerHTML = "COMPUTER CHOICE";
-
-
 
 }
 
@@ -134,20 +147,23 @@ function stones(computer, player) {
     let w = document.getElementById("winner");
     let d = document.getElementById("draw");
 
-    player = "stone";
+    player = "STONE";
 
     let cc = Math.floor(Math.random() * 3);
 
-    computer = computerChoice[cc];
 
+    computer = computerChoice[cc];
+    imgOutput(computer);
 
     if (player === computer) {
         draws++;
         random.innerHTML = computer;
-
         d.innerHTML = "DRAW: " + draws;
+        console.log(computer);
+
+
     }
-    else if (computer === "paper") {
+    else if (computer === "PAPER") {
         lost++;
         random.innerHTML = computer;
 
@@ -164,8 +180,8 @@ function stones(computer, player) {
     }
 
 
-
 }
+
 
 function scissors(computer, player) {
 
@@ -173,12 +189,15 @@ function scissors(computer, player) {
     let w = document.getElementById("winner");
     let d = document.getElementById("draw");
 
-    player = "scissor";
+    player = "SCISSOR";
 
 
     let cc = Math.floor(Math.random() * 3);
 
     computer = computerChoice[cc];
+    imgOutput(computer);
+
+
 
     if (player === computer) {
         draws++;
@@ -187,9 +206,7 @@ function scissors(computer, player) {
 
     }
 
-    else if(computer === "stone") {
-
-        console.log(computer);
+    else if(computer === "STONE") {
 
         lost++;
 
@@ -216,12 +233,14 @@ function papers(computer, player) {
     let w = document.getElementById("winner");
     let d = document.getElementById("draw");
 
-    player = "paper";
+    player = "PAPER";
 
 
     let cc = Math.floor(Math.random() * 3);
 
     computer = computerChoice[cc];
+    imgOutput(computer);
+
 
     if (player === computer) {
         draws++;
@@ -230,7 +249,7 @@ function papers(computer, player) {
 
     }
 
-    else if (computer === "scissor") {
+    else if (computer === "SCISSOR") {
 
         console.log(computer);
 
@@ -248,4 +267,30 @@ function papers(computer, player) {
 
 
     }
+
 }
+
+    function imgOutput(computerImg){
+
+        let starter = document.getElementById("divImg");
+        console.log(starter)
+        console.log(computerImg)
+    
+        if(computerImg == "STONE"){
+            imgChoice.src = "rock.png";
+            starter.appendChild(imgChoice);
+        }
+        else if(computerImg == "PAPER"){
+            imgChoice.src = "paper.png";
+            starter.appendChild(imgChoice);
+
+        }
+        else{
+            imgChoice.src = "scissor.png";
+            starter.appendChild(imgChoice);
+
+        }
+    
+    }
+
+
